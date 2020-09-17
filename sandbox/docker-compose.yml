@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+
+  jenkins:
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile-centos
+    image: jenkins
+    container_name: jenkins    
+    volumes:
+      - "jenkinshome:/var/jenkins_home"
+    ports: 
+      - "8080:8080"
+      - "50000:50000"
+
+  dockerproxy:
+    image: shipyard/docker-proxy
+    container_name: dockerproxy
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    ports:
+      - "3375:2375"
+
+  elk:
+    image: sebp/elk
+    container_name: elk
+    environment: 
+      MAX_MAP_COUNT: 262144
+    volumes:
+      - "./logstash-input.local.conf:/etc/logstash/conf.d/03-input.conf"
+    ports:
+      - "5601:5601"
+      - "9200:9200"
+      - "5044:5044"
+
+  vault:
+    image: vault
+    container_name: vault
+    environment:
+      VAULT_ADDR: http://127.0.0.1:8200/
+    volumes:
+      - "vaultfile:/vault/file"
+      - "./vault-entrypoint.sh:/usr/local/bin/vault-entrypoint.sh"
+      - "./config.hcl:/tmp/vaultconfig.hcl"
+    cap_add:
+     - IPC_LOCK
+    ports:
+      - "8200:8200"
+    command: 
+      - vault-entrypoint.sh
+
+volumes:
+  jenkinshome:
+    external: false
+  vaultfile:
+    external: false
+    
