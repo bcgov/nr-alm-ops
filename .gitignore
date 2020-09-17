@@ -102,3 +102,6 @@ dist
 
 # TernJS port file
 .tern-port
+jira-docs/config.js
+.DS_Store
+jira-docs/content/
