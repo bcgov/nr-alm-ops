@@ -28,6 +28,7 @@ services:
       MAX_MAP_COUNT: 262144
     volumes:
       - "./logstash-input.local.conf:/etc/logstash/conf.d/03-input.conf"
+      - "elasticsearch:/var/lib/elasticsearch"
     ports:
       - "5601:5601"
       - "9200:9200"
@@ -52,6 +53,7 @@ services:
 volumes:
   jenkinshome:
     external: false
+  elasticsearch:
+    external: false
   vaultfile:
     external: false
-    
