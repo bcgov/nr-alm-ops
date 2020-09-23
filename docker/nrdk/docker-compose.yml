@@ -2,6 +2,10 @@ version: '3.8'
 services:
 
   nrdk:
+    user: "node"
+    working_dir: /home/node/app
+    volumes:
+      - ./:/home/node/app
     build:
       context: ./dockerfiles
       dockerfile: Dockerfile
