@@ -4,4 +4,4 @@ RUN apt-get install -y curl && \
     tar -zxvf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz && \
     cp openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc /usr/local/bin && \
     apt-get clean
-ENTRYPOINT ["/bin/bash"]
+RUN npm install -g @bcgov/nrdk
