@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+
+  nrdk:
+    build:
+      context: ./dockerfiles
+      dockerfile: Dockerfile
+    image: nrdk
+    container_name: nrdk
+    tty: true
