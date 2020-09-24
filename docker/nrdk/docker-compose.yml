@@ -2,13 +2,17 @@ version: '3.8'
 services:
 
   nrdk:
-    user: "node"
+    user: node
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
+      - kube-data:.kube
     build:
       context: ./dockerfiles
       dockerfile: Dockerfile
     image: nrdk
     container_name: nrdk
     tty: true
+
+volumes:
+  kube-data:
