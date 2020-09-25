@@ -6,7 +6,7 @@ services:
     working_dir: /home/node/app
     volumes:
       - ./:/home/node/app
-      - kube-data:.kube
+      - kube-data:/home/node/.kube
     build:
       context: ./dockerfiles
       dockerfile: Dockerfile
