@@ -1,0 +1,2 @@
+function docker-nrdk-fn { docker run --rm -u node -w /home/node/app -v ${PWD}:/home/node/app -v kube-data:/home/node/.kube nrdk npx @bcgov/nrdk $args }
+function docker-oc-fn { docker run --rm -u node -w /home/node/app -v ${PWD}:/home/node/app -v kube-data:/home/node/.kube nrdk oc $args }
