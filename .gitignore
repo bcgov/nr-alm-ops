@@ -105,3 +105,10 @@ dist
 jira-docs/config.js
 .DS_Store
 jira-docs/content/
+
+oracledb-jmeter/output/
+oracledb-jmeter/report/
+oracledb-jmeter/*.jtl
+oracledb-jmeter/*.jar
+oracledb-jmeter/*.csv
+oracledb-jmeter/.env

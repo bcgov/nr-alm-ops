@@ -1,0 +1,6 @@
+# Ignore everything
+**
+
+# Allow files and directories
+!/oracle-cursor.jmx
+!/sampler.groovy
