@@ -4,3 +4,4 @@
 # Allow files and directories
 !/oracle-cursor.jmx
 !/sampler.groovy
+!/entrypoint.sh
