@@ -17,3 +17,6 @@ RUN pip install -r requirements.txt && mkdir /wallet && chmod -R g=u /wallet && 
 VOLUME [ "/wallet" ]
 # Restore original image user
 USER 1001
+
+ENTRYPOINT [ "python" ]
+CMD [ "test_connection.py" ]
