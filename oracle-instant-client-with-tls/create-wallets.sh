@@ -28,10 +28,10 @@ function create_wallet {
   orapki wallet display -wallet "/work/contrib/.wallets/${DBHOSTNAME}"
 }
 
-#create_wallet 'nrkdb01.bcgov:1543'
-#create_wallet 'nrcdb01.bcgov:1543'
-#create_wallet 'nrkdb03.bcgov:1543'
-#create_wallet 'nrcdb03.bcgov:1543'
+create_wallet 'nrkdb01.bcgov:1543'
+create_wallet 'nrcdb01.bcgov:1543'
+create_wallet 'nrkdb03.bcgov:1543'
+create_wallet 'nrcdb03.bcgov:1543'
 
 echo "Creating one wallet with all certificates ..."
 orapki wallet create -wallet /work/contrib/.wallets/.all -auto_login -pwd 'ch4ng3m3'

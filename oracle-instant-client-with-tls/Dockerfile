@@ -11,12 +11,13 @@ RUN set -x && \
     yum install -y --disablerepo=* --enablerepo=ol7_latest oracle-release-el7 && \
     rm /etc/yum.repos.d/ol7-temp.repo && \
     yum install -y --disablerepo=* --enablerepo=ol7_latest,ol7_oracle_instantclient oracle-instantclient19.6-basic oracle-instantclient19.6-devel oracle-instantclient19.6-sqlplus oracle-instantclient19.6-tools && \
-    yum clean all
+    yum clean all -y
 COPY contrib/src/ /opt/app-root/src
+COPY contrib/fix-uid /usr/local/bin/
 RUN pip install -r requirements.txt && mkdir /wallet && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src
 VOLUME [ "/wallet" ]
 # Restore original image user
 USER 1001
 
-ENTRYPOINT [ "python" ]
-CMD [ "test_connection.py" ]
+ENTRYPOINT [ "/usr/local/bin/fix-uid" ]
+CMD [ "python", "test_connection.py" ]
