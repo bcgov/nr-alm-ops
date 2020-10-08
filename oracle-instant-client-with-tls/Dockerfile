@@ -13,7 +13,7 @@ RUN set -x && \
     yum install -y --disablerepo=* --enablerepo=ol7_latest,ol7_oracle_instantclient oracle-instantclient19.6-basic oracle-instantclient19.6-devel oracle-instantclient19.6-sqlplus oracle-instantclient19.6-tools && \
     yum clean all
 COPY contrib/src/ /opt/app-root/src
-RUN pip install -r requirements.txt && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src
+RUN pip install -r requirements.txt && mkdir /wallet && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src
 VOLUME [ "/wallet" ]
 # Restore original image user
 USER 1001
