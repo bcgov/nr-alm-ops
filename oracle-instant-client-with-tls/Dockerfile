@@ -8,9 +8,9 @@ RUN set -x && \
     echo 'gpgcheck=1' >> /etc/yum.repos.d/ol7-temp.repo && \
     echo 'enabled=1' >> /etc/yum.repos.d/ol7-temp.repo && \
     curl -sSLo /etc/pki/rpm-gpg/RPM-GPG-KEY-oracle https://yum.oracle.com/RPM-GPG-KEY-oracle-ol7 && \
-    yum install -y oracle-release-el7 && \
+    yum install -y --disablerepo=* --enablerepo=ol7_latest oracle-release-el7 && \
     rm /etc/yum.repos.d/ol7-temp.repo && \
-    yum install -y oracle-instantclient19.6-basic oracle-instantclient19.6-devel oracle-instantclient19.6-sqlplus oracle-instantclient19.6-tools && \
+    yum install -y --disablerepo=* --enablerepo=ol7_latest,ol7_oracle_instantclient oracle-instantclient19.6-basic oracle-instantclient19.6-devel oracle-instantclient19.6-sqlplus oracle-instantclient19.6-tools && \
     yum clean all
 COPY contrib/src/ /opt/app-root/src
 RUN pip install -r requirements.txt && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src
