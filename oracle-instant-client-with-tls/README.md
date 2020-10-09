@@ -32,6 +32,9 @@ oc rollout resume dc/oracle-tls-conn
 # Running locally
 ```
 docker build -t oic:latest .
-docker run -it --entrypoint /bin/bash oic:latest
-docker run -it --env-file contrib/src/.env -v "$(pwd)/contrib/.wallets/.all:/wallet" -v "$(pwd)/contrib/src:/opt/app-root/src" oic:latest
+
+# Start an interactive bash shell with volumes mapped back to your work directory
+docker run -it --entrypoint /bin/bash -v "$(pwd)/contrib/.wallets/.all:/wallet" -v "$(pwd)/contrib/src:/opt/app-root/src" oic:latest
+
+
 ```
