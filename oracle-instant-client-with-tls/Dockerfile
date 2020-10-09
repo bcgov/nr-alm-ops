@@ -14,7 +14,7 @@ RUN set -x && \
     yum clean all -y
 COPY contrib/src/ /opt/app-root/src
 COPY contrib/fix-uid /usr/local/bin/
-RUN pip install -r requirements.txt && mkdir /wallet && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src
+RUN pip install -r requirements.txt && mkdir /wallet && chmod -R g=u /wallet && chmod -R g=u /opt/app-root/src && chmod g=u /etc/passwd
 VOLUME [ "/wallet" ]
 # Restore original image user
 USER 1001
