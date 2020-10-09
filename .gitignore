@@ -106,4 +106,4 @@ jira-docs/config.js
 .DS_Store
 jira-docs/content/
 **/oradiag_default/
-oracle-instant-client-with-tls/contrib/.wallets/nr*
+oracle-instant-client-with-tls/contrib/.wallets/**
