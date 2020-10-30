@@ -7,8 +7,10 @@ curl --compressed -o dataset.csv 'https://pub.data.gov.bc.ca/datasets/f9566991-e
 Use SQLDeveloper (or some other tool) to import the csv file into a table called `dataset`.
 
 
-## Inorder to connect to Database using an encrypted connection TCPS the jdbc url should be of the format
-```jdbc:oracle:thin:@tcps://<dbhosst>:1543/<servicename>?TNS_ADMIN=/src/wallet```
+## .env file for TCPS connections.
+```
+JDBC Url should be of the following format - 
+jdbc:oracle:thin:@tcps://<dbhosst>:1543/<servicename>?TNS_ADMIN=/src/wallet```
 
 
 # Running JMeter GUI
@@ -24,17 +26,21 @@ docker build -t jmeter-oracle-cursor:latest --squash .
 ```
 
 # Running locally using docker with encrypted connection to database.
-# Create a local folder called wallet and add ojdbc.properties and truststore.p12 to it
 ```
+#Create a local folder called wallet and add ojdbc.properties and truststore.p12 to it
+
 rm -rf output/*
 docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet: /src/wallet jmeter-oracle-cursor:latest
 ```
 
 
-## Pushing image to OpenShift Regisry. Please note that all references to csnr-devops-lab-tools in the commands 
-## need to be replaced with the namespace that the image is being run on. e.g perri-tools
+## Pushing image to OpenShift Regisry. 
 ```
+#Please note that all references to csnr-devops-lab-tools in the commands 
+#need to be replaced with the namespace that the image is being run on. e.g perri-tools
+
 docker tag jmeter-oracle-cursor:latest docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
+
 docker push docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
 ```
 
