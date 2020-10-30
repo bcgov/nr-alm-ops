@@ -2,11 +2,15 @@
         "spec": {
             "containers": [
                 {
-                    "image": "docker-registry.default.svc:5000/csnr-devops-lab-tools/jmeter-oracle-cursor:latest",
+                    "image": "docker-registry.default.svc:5000/perrsi-tools/jmeter-oracle-cursor:latest",
                     "name": "jmeter",
                     "volumeMounts": [{
                         "mountPath": "/src/output",
                         "name": "jmeter-output"
+                    },
+                    {
+                      "mountPath": "/src/wallet",
+                      "name": "jmeter-wallet"
                     }],
                     "env":[
                       {
@@ -20,6 +24,10 @@
                       {
                         "name": "CONNECTION_PASS",
                         "valueFrom": {"secretKeyRef": {"name":"jmeter-oradb-info", "key":"CONNECTION_PASS"}}
+                      },                      ,
+                      {
+                        "name": "TABLE_NAME",
+                        "valueFrom": {"secretKeyRef": {"name":"jmeter-oradb-info", "key":"TABLE_NAME"}}
                       }
                     ],
                     "resources":{
@@ -34,6 +42,13 @@
                     "persistentVolumeClaim": {
                         "claimName": "jmeter-oradb-output"
                     }
+                },
+                {
+                  "name": "jmeter-wallet",
+                  "secret": {
+                    "defaultMode": 420
+                    "secretName": "jmeter-oradb-wallet"
+                  }
                 }
             ]
         }

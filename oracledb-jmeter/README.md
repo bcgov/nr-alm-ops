@@ -1,4 +1,3 @@
-
 # Loading Dataset
 ## Download Dataset
 ```
@@ -6,6 +5,11 @@ curl --compressed -o dataset.csv 'https://pub.data.gov.bc.ca/datasets/f9566991-e
 ```
 ## Loading data
 Use SQLDeveloper (or some other tool) to import the csv file into a table called `dataset`.
+
+
+## Inorder to connect to Database using an encrypted connection TCPS the jdbc url should be of the format
+```jdbc:oracle:thin:@tcps://<dbhosst>:1543/<servicename>?TNS_ADMIN=/src/wallet```
+
 
 # Running JMeter GUI
 ```
@@ -19,13 +23,16 @@ jmeter -Juser.classpath=${PWD}/ojdbc8-19.7.0.0.jar -t oracle-cursor.jmx
 docker build -t jmeter-oracle-cursor:latest --squash .
 ```
 
-# Running locally using docker
+# Running locally using docker with encrypted connection to database.
+# Create a local folder called wallet and add ojdbc.properties and truststore.p12 to it
 ```
 rm -rf output/*
-docker run --env-file .env -v ${PWD}/output:/src/output jmeter-oracle-cursor:latest
+docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet: /src/wallet jmeter-oracle-cursor:latest
 ```
 
-## Pushing image to OpenShift Regisry
+
+## Pushing image to OpenShift Regisry. Please note that all references to csnr-devops-lab-tools in the commands 
+## need to be replaced with the namespace that the image is being run on. e.g perri-tools
 ```
 docker tag jmeter-oracle-cursor:latest docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
 docker push docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
@@ -41,6 +48,9 @@ oc -n csnr-devops-lab-tools create -f pvc.yaml
 # see .env.sample for the required keys
 # oc -n csnr-devops-lab-tools delete secret/jmeter-oradb-info
 oc -n csnr-devops-lab-tools create secret generic jmeter-oradb-info --from-env-file=.env
+
+# If using an encrypted connection , then Create a corresponding secret to mount the trust store certificate from your local #workstation
+oc create secret generic jmeter-oradb-wallet --from-file=ojdbc.properties=<path to file on local workstation> --from-file=truststore.p12=<path to file on local workstation>
 
 # Delete any existing pod of the same name
 oc -n csnr-devops-lab-tools delete pod/jmeter-oradb --ignore-not-found=true
