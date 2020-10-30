@@ -2,7 +2,7 @@
         "spec": {
             "containers": [
                 {
-                    "image": "docker-registry.default.svc:5000/perrsi-tools/jmeter-oracle-cursor:latest",
+                    "image":"docker-registry.default.svc:5000/perrsi-tools/jmeter-oracle-cursor:latest",
                     "name": "jmeter",
                     "volumeMounts": [{
                         "mountPath": "/src/output",
@@ -24,7 +24,7 @@
                       {
                         "name": "CONNECTION_PASS",
                         "valueFrom": {"secretKeyRef": {"name":"jmeter-oradb-info", "key":"CONNECTION_PASS"}}
-                      },                      ,
+                      },                      
                       {
                         "name": "TABLE_NAME",
                         "valueFrom": {"secretKeyRef": {"name":"jmeter-oradb-info", "key":"TABLE_NAME"}}
@@ -46,7 +46,7 @@
                 {
                   "name": "jmeter-wallet",
                   "secret": {
-                    "defaultMode": 420
+                    "defaultMode": 420,
                     "secretName": "jmeter-oradb-wallet"
                   }
                 }
