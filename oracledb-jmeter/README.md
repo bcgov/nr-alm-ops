@@ -10,7 +10,7 @@ Use SQLDeveloper (or some other tool) to import the csv file into a table called
 ## .env file for TCPS connections.
 ```
 JDBC Url should be of the following format - 
-jdbc:oracle:thin:@tcps://<dbhosst>:1543/<servicename>?TNS_ADMIN=/src/wallet```
+jdbc:oracle:thin:@tcps://<dbhost>:1543/<servicename>?TNS_ADMIN=/src/wallet```
 
 
 # Running JMeter GUI
@@ -36,31 +36,31 @@ docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet: /src/w
 
 ## Pushing image to OpenShift Regisry. 
 ```
-#Please note that all references to csnr-devops-lab-tools in the commands 
-#need to be replaced with the namespace that the image is being run on. e.g perri-tools
+docker tag jmeter-oracle-cursor:latest docker-registry.pathfinder.gov.bc.ca/<project namespace>/jmeter-oracle-cursor:latest
 
-docker tag jmeter-oracle-cursor:latest docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
-
-docker push docker-registry.pathfinder.gov.bc.ca/csnr-devops-lab-tools/jmeter-oracle-cursor:latest
+docker push docker-registry.pathfinder.gov.bc.ca/<project namespace>/jmeter-oracle-cursor:latest
 ```
 
 # Running in OpenShift
 ```
 # Create a PVC called jmeter-oradb-output
-# oc -n csnr-devops-lab-tools get pvc/jmeter-oradb-output -o yaml
-oc -n csnr-devops-lab-tools create -f pvc.yaml
+# oc -n <project namespace> get pvc/jmeter-oradb-output -o yaml
+oc -n <project namespace> create -f pvc.yaml
 
 # Create a SECRET called jmeter-oradb-info
 # see .env.sample for the required keys
-# oc -n csnr-devops-lab-tools delete secret/jmeter-oradb-info
-oc -n csnr-devops-lab-tools create secret generic jmeter-oradb-info --from-env-file=.env
+# oc -n <project namespace> delete secret/jmeter-oradb-info
+oc -n <project namespace> create secret generic jmeter-oradb-info --from-env-file=.env
 
 # If using an encrypted connection , then Create a corresponding secret to mount the trust store certificate from your local #workstation
 oc create secret generic jmeter-oradb-wallet --from-file=ojdbc.properties=<path to file on local workstation> --from-file=truststore.p12=<path to file on local workstation>
 
 # Delete any existing pod of the same name
-oc -n csnr-devops-lab-tools delete pod/jmeter-oradb --ignore-not-found=true
+oc -n <project namespace> delete pod/jmeter-oradb --ignore-not-found=true
+
+# Update pod.run.json manually (TODO Convert json to yaml so that reference to project name in the pod.run.json can be parameterized)
+Update the image name in the pod.run.json to refer to the correct image in the relavant namespace.
 
 # Run JMeter test
-oc -n csnr-devops-lab-tools run jmeter-oradb --image=dummy --restart=Never "--overrides=$(<pod.run.json)"
+oc -n <project namespace> run jmeter-oradb --image=dummy --restart=Never "--overrides=$(<pod.run.json)"
 ```
