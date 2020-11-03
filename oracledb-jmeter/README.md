@@ -12,6 +12,8 @@ Use SQLDeveloper (or some other tool) to import the csv file into a table called
 JDBC Url should be of the following format - 
 jdbc:oracle:thin:@tcps://<dbhost>:1543/<servicename>?TNS_ADMIN=/src/wallet```
 
+#For nonecrypted connections, the jdbc url will be of the following format
+jdbc:oracle:thin:@//<host>:<port>/<servicename>
 
 # Running JMeter GUI
 ```
@@ -27,10 +29,17 @@ docker build -t jmeter-oracle-cursor:latest --squash .
 
 # Running locally using docker with encrypted connection to database.
 ```
-#Create a local folder called wallet and add ojdbc.properties and truststore.p12 to it
-
+#Emptying the output folder
 rm -rf output/*
-docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet: /src/wallet jmeter-oracle-cursor:latest
+
+#Create a local folder called wallet and add ojdbc.properties and truststore.p12 to and run the command below 
+#This is not needed for non-encrypted connections
+
+docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet:/src/wallet jmeter-oracle-cursor:latest
+
+#For non-encrypted connections the run string will be 
+docker run --env-file .env -v ${PWD}/output:/src/output  jmeter-oracle-cursor:latest
+
 ```
 
 
@@ -53,7 +62,7 @@ oc -n <project namespace> create -f pvc.yaml
 oc -n <project namespace> create secret generic jmeter-oradb-info --from-env-file=.env
 
 # If using an encrypted connection , then Create a corresponding secret to mount the trust store certificate from your local #workstation
-oc create secret generic jmeter-oradb-wallet --from-file=ojdbc.properties=<path to file on local workstation> --from-file=truststore.p12=<path to file on local workstation>
+oc -n <project namespace> create secret generic jmeter-oradb-wallet --from-file=ojdbc.properties=<path to file on local workstation> --from-file=truststore.p12=<path to file on local workstation>
 
 # Delete any existing pod of the same name
 oc -n <project namespace> delete pod/jmeter-oradb --ignore-not-found=true
@@ -61,6 +70,6 @@ oc -n <project namespace> delete pod/jmeter-oradb --ignore-not-found=true
 # Update pod.run.json manually (TODO Convert json to yaml so that reference to project name in the pod.run.json can be parameterized)
 Update the image name in the pod.run.json to refer to the correct image in the relavant namespace.
 
-# Run JMeter test
+# Run JMeter test using image built and tagged to openshift
 oc -n <project namespace> run jmeter-oradb --image=dummy --restart=Never "--overrides=$(<pod.run.json)"
 ```
