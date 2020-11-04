@@ -10,11 +10,11 @@ Use SQLDeveloper (or some other tool) to import the csv file into a table called
 ## .env file for TCPS connections.
 ```
 JDBC Url should be of the following format - 
-jdbc:oracle:thin:@tcps://<dbhost>:1543/<servicename>?TNS_ADMIN=/src/wallet```
+jdbc:oracle:thin:@tcps://<dbhost>:1543/<servicename>?TNS_ADMIN=/src/wallet
 
 #For nonecrypted connections, the jdbc url will be of the following format
 jdbc:oracle:thin:@//<host>:<port>/<servicename>
-
+```
 # Running JMeter GUI
 ```
 # see .env.sample for the required keys
@@ -41,7 +41,6 @@ docker run --env-file .env -v ${PWD}/output:/src/output -v ${PWD}/wallet:/src/wa
 docker run --env-file .env -v ${PWD}/output:/src/output  jmeter-oracle-cursor:latest
 
 ```
-
 
 ## Pushing image to OpenShift Regisry. 
 ```
