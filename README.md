@@ -1,4 +1,4 @@
 # nr-alm-ops
 Application Lifecycle Management Operational Scripts for the Natural Resource Ministries
 
-[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/nr-alm-ops/blob/master/README.md)
+[![img](https://img.shields.io/badge/Lifecycle-Maturing-007EC6)](https://github.com/bcgov/nr-alm-ops/blob/master/README.md) ![GitHub contributors](https://img.shields.io/github/contributors/bcgov/nr-alm-ops) ![GitHub commit activity](https://img.shields.io/github/commit-activity/y/bcgov/nr-alm-ops) ![GitHub last commit](https://img.shields.io/github/last-commit/bcgov/nr-alm-ops) ![GitHub top language](https://img.shields.io/github/languages/top/bcgov/nr-alm-ops) ![GitHub issues](https://img.shields.io/github/issues/bcgov/nr-alm-ops) ![GitHub closed issues](https://img.shields.io/github/issues-closed/bcgov/nr-alm-ops) ![GitHub pull requests](https://img.shields.io/github/issues-pr/bcgov/nr-alm-ops?style=flat-square) ![GitHub closed pull requests](https://img.shields.io/github/issues-pr-closed/bcgov/nr-alm-ops)
